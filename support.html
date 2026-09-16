@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Support — Personal-Finances</title>
+<meta name="description" content="Help with Personal-Finances: getting your data out, currencies, trips, recurring bills, and how to get in touch.">
+<link rel="icon" href="favicon.png">
+<style>
+  :root {
+    --paper:#FAF9F6; --ink:#262626; --faint:#6E6E6E; --hair:#E2DFD8; --green:#5E7A44;
+    --wash:#F1EFE9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper:#141414; --ink:#E9E7E2; --faint:#9B9B9B; --hair:#2E2E2E; --green:#8FAE6E;
+            --wash:#1E1E1E; }
+  }
+  * { box-sizing:border-box; }
+  html { background:var(--paper); -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-size:17px; line-height:1.65;
+         font-family:"Avenir Next","Avenir",ui-sans-serif,system-ui,-apple-system,sans-serif;
+         -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:42rem; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
+  a { color:var(--green); }
+  .back { font-size:.93rem; display:inline-block; margin-bottom:2rem; }
+  h1 { font-size:clamp(2rem,6vw,2.6rem); font-weight:600; letter-spacing:-.025em; margin:0 0 .3rem; }
+  .sub { color:var(--faint); margin:0 0 2.5rem; }
+  h2 { font-size:1.2rem; font-weight:600; letter-spacing:-.012em; margin:2.4rem 0 .6rem; }
+  h3 { font-size:1.02rem; font-weight:600; margin:1.5rem 0 .25rem; }
+  p, li { text-wrap:pretty; }
+  p.a { color:var(--faint); margin:.25rem 0 0; }
+  .lead { background:var(--wash); border:1px solid var(--hair); border-radius:12px;
+          padding:1.1rem 1.3rem; }
+  footer { border-top:1px solid var(--hair); margin-top:3rem; padding-top:1.4rem;
+           color:var(--faint); font-size:.92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Personal-Finances</a>
+
+  <h1>Support</h1>
+  <p class="sub">Personal-Finances — a personal ledger for expenses, trips and income</p>
+
+  <p class="lead">
+    <strong>Get in touch:</strong>
+    <a href="mailto:beiserjohannes@gmail.com">beiserjohannes@gmail.com</a>. One person reads it,
+    usually within a few days. A screenshot helps more than a description, and if a figure looks
+    wrong, say which screen and which month.
+  </p>
+
+  <h2>Common questions</h2>
+
+  <h3>Where is my data kept? Can I get it out?</h3>
+  <p class="a">
+    On your phone, in one file, and yes. <em>Settings → Backup &amp; data → Export a backup</em>
+    writes readable JSON you can keep anywhere. The same screen imports it back. There is no
+    account and no server, so an export is the only copy that exists outside the app — worth taking
+    one before you change phones.
+  </p>
+
+  <h3>Why doesn't my total change when I switch between CHF and EUR at today's rate?</h3>
+  <p class="a">
+    Because it shouldn't. Every expense stores the exchange rates that applied in the month you
+    entered it, and converts at those. A total from 2021 is therefore not the same total divided by
+    today's rate — the two differ across years of different monthly rates, and that difference is
+    the correct answer rather than a bug.
+  </p>
+
+  <h3>I entered something in a currency the app doesn't know</h3>
+  <p class="a">
+    For currencies without bundled rate history the app asks you for the rate once, on the record
+    itself, and stores it there. You can correct it later by opening the expense. One rate is
+    enough for both display currencies.
+  </p>
+
+  <h3>My rent went up. Will that change last year's totals?</h3>
+  <p class="a">
+    No. A recurring bill holds a list of prices rather than one amount. Edit it and choose
+    <em>this month and future months</em>, and every earlier month keeps what it actually cost.
+    Choose <em>this month only</em> for a one-off.
+  </p>
+
+  <h3>An expense is on the wrong trip, or has no trip</h3>
+  <p class="a">
+    The date decides the trip: change the date and the trip follows, unless you picked one by hand.
+    A trip that has finished still shows in the picker marked <em>(past)</em>, so an expense filed
+    under it is never invisible.
+  </p>
+
+  <h3>The investment figure doesn't match my bank</h3>
+  <p class="a">
+    It won't, and nothing is wrong. The app converts at the mid-market rate; a bank converts at its
+    own rate with a spread, typically a little under one percent. The footnote under the chart
+    prints the rate used. Prices also only accumulate on days you open the app.
+  </p>
+
+  <h3>I deleted something by mistake</h3>
+  <p class="a">
+    Deleting an expense offers <em>Undo</em> for a few seconds. Past that, the way back is a backup
+    — which is the argument for exporting one occasionally.
+  </p>
+
+  <h3>Does it sync between my devices?</h3>
+  <p class="a">
+    Not yet. Today the ledger lives on one phone, and moving it means exporting and importing.
+  </p>
+
+  <h2>Reporting something wrong</h2>
+  <p>
+    If a number looks incorrect, that is worth an email. Include the screen, the month, what it
+    shows and what you expected. If you are willing to send an exported backup it makes the cause
+    much easier to find — but it contains your whole financial history, so only do that if you are
+    comfortable with it, and never post one publicly.
+  </p>
+
+  <footer>
+    <a href="index.html">Home</a> &middot; <a href="privacy.html">Privacy</a>
+  </footer>
+</div>
+</body>
+</html>
