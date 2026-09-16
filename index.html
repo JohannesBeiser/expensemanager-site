@@ -5,155 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Personal-Finances — expenses, trips and income</title>
 <meta name="description" content="A personal ledger for people who travel. Every expense keeps the rate it was paid at, so a total from 2021 still reads what it cost. No account, no server, no subscription.">
-<link rel="icon" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:title" content="Personal-Finances">
 <meta property="og:description" content="Expenses, trips and income. Nothing is re-priced later.">
-<meta property="og:image" content="img/icon.png">
 <style>
-  /* The app's own palette. The charcoal is the icon's background and the accents are the
-     category colours out of the ledger itself, so the site and the app cannot drift apart. */
+  /* The app's own palette: the charcoal is its icon's background, the accents are category
+     colours out of the ledger. No images anywhere on this site — see the README. */
   :root {
-    --paper:#FAF9F6; --card:#FFFFFF; --ink:#262626; --faint:#6E6E6E; --hair:#E2DFD8;
+    --paper:#FAF9F6; --ink:#262626; --faint:#6E6E6E; --hair:#E2DFD8;
     --green:#5E7A44; --blue:#5979A9; --rust:#C05746; --tan:#967B5C; --wash:#F1EFE9;
-    --shadow:0 2px 6px rgba(38,38,38,.05), 0 18px 46px rgba(38,38,38,.14);
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --paper:#141414; --card:#1C1C1C; --ink:#E9E7E2; --faint:#9B9B9B; --hair:#2E2E2E;
-      --green:#8FAE6E; --blue:#7C9DCB; --rust:#D6735F; --tan:#B79770;
-      --wash:#1E1E1E;
-      --shadow:0 2px 6px rgba(0,0,0,.5), 0 18px 46px rgba(0,0,0,.55);
-    }
+    :root { --paper:#141414; --ink:#E9E7E2; --faint:#9B9B9B; --hair:#2E2E2E;
+            --green:#8FAE6E; --blue:#7C9DCB; --rust:#D6735F; --tan:#B79770; --wash:#1E1E1E; }
   }
   * { box-sizing:border-box; }
-  html { background:var(--paper); scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  html { background:var(--paper); -webkit-text-size-adjust:100%; }
   body {
-    margin:0; background:var(--paper); color:var(--ink); font-size:17px; line-height:1.6;
+    margin:0; background:var(--paper); color:var(--ink); font-size:17px; line-height:1.65;
     font-family:"Avenir Next","Avenir",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap { max-width:62rem; margin:0 auto; padding:0 1.5rem; }
-  a { color:var(--green); text-decoration:none; }
-  a:hover { text-decoration:underline; }
+  .wrap { max-width:42rem; margin:0 auto; padding:0 1.5rem; }
+  a { color:var(--green); }
   :focus-visible { outline:2px solid var(--green); outline-offset:3px; border-radius:4px; }
-  img { max-width:100%; }
 
-  header.hero { padding:4.5rem 0 2.5rem; text-align:center; }
-  .icon { width:88px; height:88px; border-radius:20px; margin:0 auto 1.4rem; display:block;
-          border:1px solid var(--hair); box-shadow:var(--shadow); }
-  h1 { font-size:clamp(2.3rem,7vw,3.4rem); font-weight:600; letter-spacing:-.028em;
-       line-height:1.05; margin:0 0 .4rem; }
-  .tagline { font-size:clamp(1.02rem,3vw,1.25rem); color:var(--faint); margin:0 0 1.6rem; }
-  .lede { max-width:33rem; margin:0 auto 2rem; text-wrap:pretty; }
+  header { padding:4.5rem 0 1rem; }
+  h1 { font-size:clamp(2.2rem,7vw,3.1rem); font-weight:600; letter-spacing:-.028em;
+       line-height:1.05; margin:0 0 .45rem; }
+  .tagline { font-size:clamp(1.02rem,3vw,1.2rem); color:var(--faint); margin:0 0 1.6rem; }
+  .lede { text-wrap:pretty; margin:0 0 1.8rem; }
   .soon { display:inline-block; background:var(--wash); border:1px solid var(--hair);
           color:var(--faint); font-size:.9rem; padding:.5rem 1.1rem; border-radius:100px; }
 
-  /* ---- the tour: screenshots that advance themselves, and can be tapped ---- */
-  section.tour { padding:1rem 0 3.5rem; }
-  .stage { position:relative; width:min(310px,72vw); margin:0 auto; aspect-ratio:620/1347; }
-  .stage img {
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    border-radius:26px; border:1px solid var(--hair); box-shadow:var(--shadow);
-    opacity:0; transition:opacity .5s ease;
-  }
-  .stage img.on { opacity:1; }
-  .caption { text-align:center; margin:1.5rem auto 0; max-width:30rem; min-height:3.4rem; }
-  .caption b { display:block; font-size:1.12rem; font-weight:600; letter-spacing:-.01em; }
-  .caption span { color:var(--faint); font-size:.97rem; }
-  .dots { display:flex; gap:.55rem; justify-content:center; margin-top:1.3rem; }
-  .dots button {
-    width:9px; height:9px; padding:0; border:0; border-radius:50%; cursor:pointer;
-    background:var(--hair); transition:background .2s ease, transform .2s ease;
-  }
-  .dots button[aria-current="true"] { background:var(--green); transform:scale(1.25); }
-  @media (prefers-reduced-motion: reduce) { .stage img { transition:none; } }
+  section { padding:2.6rem 0; border-top:1px solid var(--hair); }
+  h2 { font-size:clamp(1.4rem,4vw,1.8rem); font-weight:600; letter-spacing:-.02em; margin:0 0 1rem; }
+  p { text-wrap:pretty; }
+  dl { margin:1.6rem 0 0; }
+  dt { font-weight:600; letter-spacing:-.01em; margin-top:1.3rem; }
+  dt::before { content:""; display:inline-block; width:9px; height:9px; border-radius:2px;
+               margin-right:.6rem; vertical-align:middle; background:var(--green); }
+  dl > dt:nth-of-type(2)::before { background:var(--blue); }
+  dl > dt:nth-of-type(3)::before { background:var(--rust); }
+  dl > dt:nth-of-type(4)::before { background:var(--tan); }
+  dd { margin:.25rem 0 0 1.5rem; color:var(--faint); }
 
-  section.plain { padding:3rem 0; border-top:1px solid var(--hair); }
-  h2 { font-size:clamp(1.5rem,4vw,2rem); font-weight:600; letter-spacing:-.02em; margin:0 0 1rem; }
-  .cols { display:grid; gap:1.6rem; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); margin-top:2rem; }
-  .cols h3 { font-size:1.03rem; margin:0 0 .35rem; letter-spacing:-.01em; }
-  .cols h3::before { content:""; display:inline-block; width:9px; height:9px; border-radius:2px;
-                     margin-right:.55rem; vertical-align:middle; background:var(--green); }
-  .cols div:nth-child(2) h3::before { background:var(--blue); }
-  .cols div:nth-child(3) h3::before { background:var(--rust); }
-  .cols div:nth-child(4) h3::before { background:var(--tan); }
-  .cols p { margin:0; color:var(--faint); font-size:.97rem; }
-  .note { max-width:36rem; text-wrap:pretty; }
-
-  footer { border-top:1px solid var(--hair); padding:2.2rem 0 3.5rem; color:var(--faint);
+  footer { border-top:1px solid var(--hair); padding:2rem 0 3.5rem; color:var(--faint);
            font-size:.92rem; }
   footer nav { display:flex; gap:1.2rem; flex-wrap:wrap; margin-bottom:.9rem; }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<header>
   <div class="wrap">
-    <img class="icon" src="img/icon.png" alt="">
     <h1>Personal-Finances</h1>
     <p class="tagline">Expenses, trips and income — on your phone, and nowhere else.</p>
     <p class="lede">
       Most expense trackers convert everything at today's rate. This one doesn't. Every record keeps
       what you typed and the rates in force the month you typed it, so a total from 2021 still reads
-      what it cost.
+      what it cost. Nothing is re-priced behind your back.
     </p>
     <p class="soon">Coming to the App Store</p>
   </div>
 </header>
 
-<section class="tour" aria-label="A tour of the app">
-  <div class="stage" id="stage">
-    <img src="img/shot-home.png"     alt="The month's spending, with each expense shown in the currency it was paid in." class="on">
-    <img src="img/shot-analysis.png" alt="Spending by year, with a category breakdown and rates per month and per day.">
-    <img src="img/shot-trips.png"    alt="A list of trips, each with its span, its total and what it cost per day.">
-    <img src="img/shot-income.png"   alt="Payslips as bars of net and deductions, month by month.">
-    <img src="img/shot-invest.png"   alt="Money paid in against what the holding is worth now.">
-  </div>
-  <p class="caption" id="caption" aria-live="polite"></p>
-  <div class="dots" id="dots" role="tablist" aria-label="Choose a screen"></div>
-</section>
-
-<section class="plain">
+<section>
   <div class="wrap">
     <h2>What it holds</h2>
-    <div class="cols">
-      <div>
-        <h3>Expenses</h3>
-        <p>Categories and tags, in whatever currency you paid in. Recurring bills keep a price
-           history, so registering a rent increase does not restate every past month.</p>
-      </div>
-      <div>
-        <h3>Trips</h3>
-        <p>Trips nest — a city inside a country — and each one knows its own span, its total and
-           what it cost per day, so a long trip and a short one can be compared.</p>
-      </div>
-      <div>
-        <h3>Income</h3>
-        <p>Payslips sit beside outgoings, so earned, spent and what is left are finally in the same
-           place instead of two apps that never met.</p>
-      </div>
-      <div>
-        <h3>Investing</h3>
-        <p>Money paid in against what it is worth now, month by month, each month priced at the
-           rate that applied then rather than at today's.</p>
-      </div>
-    </div>
+    <dl>
+      <dt>Expenses</dt>
+      <dd>Categories and tags, in whatever currency you paid in. Recurring bills keep a price
+          history, so registering a rent increase does not restate every past month.</dd>
+
+      <dt>Trips</dt>
+      <dd>Trips nest — a city inside a country — and each one knows its own span, its total and what
+          it cost per day, so a long trip and a short one can actually be compared.</dd>
+
+      <dt>Income</dt>
+      <dd>Payslips sit beside outgoings, so earned, spent and what is left are finally in the same
+          place instead of two apps that never met.</dd>
+
+      <dt>Investing</dt>
+      <dd>Money paid in against what it is worth now, month by month, each month priced at the rate
+          that applied then rather than at today's.</dd>
+    </dl>
   </div>
 </section>
 
-<section class="plain">
+<section>
   <div class="wrap">
     <h2>It stays on your phone</h2>
-    <p class="note">
+    <p>
       No account. No server. No subscription. No analytics, no advertising, no tracking of any kind.
       The whole ledger is a single file you can export whenever you like and read in a text editor.
       The only thing the app ever fetches is a share price on the investment screen — it sends a
       ticker symbol and receives a number — and nothing else depends on it.
     </p>
-    <p class="note" style="margin-top:1rem">
-      <a href="privacy.html">The privacy policy</a> says the same thing at greater length, including
-      the one place data is visible outside the app.
+    <p>
+      <a href="privacy.html">The privacy policy</a> says the same at greater length, including the
+      one place data is visible outside the app. <a href="support.html">Support</a> answers the
+      questions this app actually produces.
     </p>
   </div>
 </section>
@@ -169,49 +120,5 @@
   </div>
 </footer>
 
-<script>
-  // A tour rather than a video: five screens, advancing themselves, and tappable if you would
-  // rather go at your own pace. Autoplay stops for good on the first tap — once somebody has
-  // said which screen they want, moving it underneath them is the opposite of helpful.
-  (function () {
-    const shots = Array.from(document.querySelectorAll('#stage img'));
-    const dots = document.getElementById('dots');
-    const caption = document.getElementById('caption');
-    const words = [
-      ['Every expense, in its own currency', 'Nothing is re-priced later.'],
-      ['Years of spending, honestly measured', 'Totals, and the rate you are spending at.'],
-      ['A trip knows what it cost', 'Its own span, its own days, its own per-day figure.'],
-      ['Earned, spent, and what is left', 'Payslips beside outgoings, in one place.'],
-      ['What you kept, and what it is worth', 'Money in against value, month by month.'],
-    ];
-    let at = 0, timer = null;
-
-    shots.forEach((_, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-label', 'Screen ' + (i + 1));
-      b.addEventListener('click', () => { stop(); show(i); });
-      dots.appendChild(b);
-    });
-    const buttons = Array.from(dots.children);
-
-    function show(i) {
-      at = (i + shots.length) % shots.length;
-      shots.forEach((s, n) => s.classList.toggle('on', n === at));
-      buttons.forEach((b, n) => b.setAttribute('aria-current', String(n === at)));
-      caption.innerHTML = '<b>' + words[at][0] + '</b><span>' + words[at][1] + '</span>';
-    }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-
-    // Tapping the picture itself moves on, because that is what people try first.
-    document.getElementById('stage').addEventListener('click', () => { stop(); show(at + 1); });
-
-    show(0);
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      timer = setInterval(() => show(at + 1), 4200);
-    }
-  })();
-</script>
 </body>
 </html>
